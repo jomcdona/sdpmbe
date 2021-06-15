@@ -124,15 +124,55 @@ public class Sdpmbecontroller
    @CrossOrigin(origins = "http://localhost:3000")
    public void addDeployment(@RequestBody String deploymententry) throws IOException, ParseException
    {
-     String[] deployment = deploymententry.split(",");
+     //String[] deployment = deploymententry.split(",");
      deploymentsDM de = new deploymentsDM();
 
-     SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
-     java.util.Date parsed = format.parse(deployment[0]);
+     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss aa");
+     System.out.println(deploymententry);
+     java.util.Date parsed = format.parse(deploymententry);
      java.sql.Date sqldate = new java.sql.Date(parsed.getTime());
+     java.sql.Time sqltime = new java.sql.Time(parsed.getTime());
+     System.out.println(sqldate.toString());
+     System.out.println(sqltime.toString());
      de.setDeploymentDate(sqldate);
-
+     de.setDeploymentTime(sqltime);
+     ds.addDeployment(de);
   }
+
+  @GetMapping(path = "/getdeploymentsdb", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    @CrossOrigin(origins = "http://localhost:3000")
+    public String getdeploymentsdb() throws IOException
+    {
+      ArrayList<deploymentsDM> deploymentEntries = ds.getDeployments();
+      ArrayList <JSONObject>jsonArray = new ArrayList<JSONObject>();
+      int size = deploymentEntries.size();
+      for (int i=0; i < size; ++i)
+      {
+        JSONObject jsonEntry = new JSONObject();
+        deploymentsDM de = deploymentEntries.get(i);
+        jsonEntry.put("id", String.valueOf(de.getId().intValue()));
+        jsonEntry.put("Date", de.getDeploymentDate().toString());
+        jsonEntry.put("Time", de.getDeploymentTime().toString());
+        jsonArray.add(jsonEntry);
+        System.out.println("Date: " + de.getDeploymentDate().toString());
+        System.out.println("Time: " + de.getDeploymentTime().toString());
+      }
+
+      int aSize = jsonArray.size();
+      String retString = "";
+      for (int i=0; i < aSize; ++i)
+      {
+          JSONObject entry = jsonArray.get(i);
+          StringWriter out = new StringWriter();
+          entry.writeJSONString(out);
+          retString = retString + "\t" + out.toString() + ",\n";
+ 
+      }
+      retString = retString.substring(0, retString.length()-2);
+      retString = "[\n" + retString + "\n  ]";
+      return(retString);
+    }
  
 
 }

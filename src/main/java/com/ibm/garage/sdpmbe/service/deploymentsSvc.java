@@ -1,5 +1,7 @@
 package com.ibm.garage.sdpmbe.service;
 
+import java.util.ArrayList;
+
 import com.ibm.garage.sdpmbe.model.deploymentsDM;
 import com.ibm.garage.sdpmbe.repository.deploymentsRepo;
 
@@ -15,5 +17,10 @@ public class deploymentsSvc
     public void addDeployment(deploymentsDM dm)
     {
         dmr.save(dm);
+    }
+
+    public ArrayList<deploymentsDM> getDeployments()
+    {
+        return (ArrayList<deploymentsDM>)dmr.findAll();
     }
 }

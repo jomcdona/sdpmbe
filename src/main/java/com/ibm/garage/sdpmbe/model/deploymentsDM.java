@@ -18,33 +18,41 @@ import java.sql.Time;
 public class deploymentsDM {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "contact_gen")
-    @SequenceGenerator(name="contact_gen", sequenceName = "contacts_seq", initialValue = 5, allocationSize=1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "deployments_gen")
+    @SequenceGenerator(name="deployments_gen", sequenceName = "deployments_seq", initialValue = 1, allocationSize=1)
     private Integer id;
-    
-    @Column(name = "deploymentDate")
-    private Date deploymentDate;
+
+	public Integer getId() {
+		return this.id;
+    }
+
+     public void setId(Integer id) {
+		this.id = id;
+	};
+
+    @Column(name = "deploymentdate")
+    private Date deploymentdate;
 
 	public Date getDeploymentDate()
     {
-        return this.deploymentDate;
+        return this.deploymentdate;
     }
 
 
-	public void setDeploymentDate(Date deploymentDate) {
-		this.deploymentDate = deploymentDate;
+	public void setDeploymentDate(Date deploymentdate) {
+		this.deploymentdate = deploymentdate;
 	}
 
-    @Column(name = "deploymentTime")
-    private Time deploymentTime;
+    @Column(name = "deploymenttime")
+    private Time deploymenttime;
 
      public Time getDeploymentTime() {
-		return this.deploymentTime;
+		return this.deploymenttime;
 	}
 
-	public void setDeploymentTime(Time deploymentTime)
+	public void setDeploymentTime(Time deploymenttime)
     {
-        this.deploymentTime = deploymentTime;
+        this.deploymenttime = deploymenttime;
     }
 
     public deploymentsDM()
@@ -54,8 +62,8 @@ public class deploymentsDM {
 
     public deploymentsDM(Date dd, Time dt)
     {
-        this.deploymentDate = dd;
-        this.deploymentTime = dt;
+        this.deploymentdate = dd;
+        this.deploymenttime = dt;
     }
     
 }
