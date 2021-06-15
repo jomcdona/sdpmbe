@@ -12,8 +12,13 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+
+import com.ibm.garage.sdpmbe.model.deploymentsDM;
+import com.ibm.garage.sdpmbe.service.deploymentsSvc;
 
 
 @RestController
@@ -21,7 +26,9 @@ import java.util.Calendar;
 public class Sdpmbecontroller
 {
 
-    String producesString = MediaType.APPLICATION_JSON_VALUE;
+    @Autowired
+    deploymentsSvc ds;
+    
     @GetMapping(path = "/testdummy", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     @CrossOrigin(origins = "http://localhost:3000")
@@ -111,6 +118,21 @@ public class Sdpmbecontroller
       retString = "[\n" + retString + "\n  ]";
       return(retString);
    }
+
+   @PostMapping(path = "/adddeployment", consumes = MediaType.TEXT_PLAIN_VALUE)
+   @ResponseBody
+   @CrossOrigin(origins = "http://localhost:3000")
+   public void addDeployment(@RequestBody String deploymententry) throws IOException, ParseException
+   {
+     String[] deployment = deploymententry.split(",");
+     deploymentsDM de = new deploymentsDM();
+
+     SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+     java.util.Date parsed = format.parse(deployment[0]);
+     java.sql.Date sqldate = new java.sql.Date(parsed.getTime());
+     de.setDeploymentDate(sqldate);
+
+  }
  
 
 }
