@@ -1,5 +1,0 @@
-com/ibm/garage/sdpmbe/controller/Sdpmbecontroller.class
-com/ibm/garage/sdpmbe/SdpmbeApplication.class
-com/ibm/garage/sdpmbe/model/deploymentsDM.class
-com/ibm/garage/sdpmbe/repository/deploymentsRepo.class
-com/ibm/garage/sdpmbe/service/deploymentsSvc.class
