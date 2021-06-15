@@ -169,9 +169,22 @@ public class Sdpmbecontroller
           retString = retString + "\t" + out.toString() + ",\n";
  
       }
-      retString = retString.substring(0, retString.length()-2);
-      retString = "[\n" + retString + "\n  ]";
+
+      if (retString.length() > 0)
+      {
+        retString = retString.substring(0, retString.length()-2);
+        retString = "[\n" + retString + "\n  ]";
+      }
+      else
+        retString = "[]";
+      
       return(retString);
+    }
+
+    @GetMapping(path = "/cleardeployments")
+    public void clearDeplyments()
+    {
+      ds.clearDeployments();
     }
  
 

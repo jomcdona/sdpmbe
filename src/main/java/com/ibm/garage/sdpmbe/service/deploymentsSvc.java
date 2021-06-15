@@ -23,4 +23,9 @@ public class deploymentsSvc
     {
         return (ArrayList<deploymentsDM>)dmr.findAll();
     }
+
+    public void clearDeployments()
+    {
+        dmr.deleteAll();
+    }
 }
