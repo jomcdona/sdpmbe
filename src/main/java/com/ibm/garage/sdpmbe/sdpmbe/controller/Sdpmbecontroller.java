@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -23,6 +24,7 @@ public class Sdpmbecontroller
     String producesString = MediaType.APPLICATION_JSON_VALUE;
     @GetMapping(path = "/testdummy", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
+    @CrossOrigin(origins = "http://localhost:3000")
     public String testdummy() throws IOException
     {
       ArrayList <JSONObject>jsonArray = new ArrayList<JSONObject>();
@@ -57,8 +59,10 @@ public class Sdpmbecontroller
 
     @GetMapping(path = "/getdeployments", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
+    @CrossOrigin(origins = "http://localhost:3000")
     public String getdeployments() throws IOException
     {
+      System.out.println("getDeployments()");
       ArrayList <JSONObject>jsonArray = new ArrayList<JSONObject>();
       for (int i=0; i<10; ++i)
       {
@@ -84,11 +88,12 @@ public class Sdpmbecontroller
 
         if (minute.length() == 1)
           minute = "0" + minute;
-          
+
         String retDate = year + "-" + day + "-" + month;
         String retTime = hour + ":" + minute + ":" + second + " " + am_pm;
-        jsonEntry.put("Date:", retDate);
-        jsonEntry.put("Time:", retTime);
+        jsonEntry.put("id", i);
+        jsonEntry.put("Date", retDate);
+        jsonEntry.put("Time", retTime);
         jsonArray.add(jsonEntry);
       };
  
@@ -99,11 +104,11 @@ public class Sdpmbecontroller
           JSONObject entry = jsonArray.get(i);
           StringWriter out = new StringWriter();
           entry.writeJSONString(out);
-          retString = retString + out.toString() + ",\n";
+          retString = retString + "\t" + out.toString() + ",\n";
  
       }
       retString = retString.substring(0, retString.length()-2);
-      retString = "[" + retString + "]";
+      retString = "[\n" + retString + "\n  ]";
       return(retString);
    }
  
