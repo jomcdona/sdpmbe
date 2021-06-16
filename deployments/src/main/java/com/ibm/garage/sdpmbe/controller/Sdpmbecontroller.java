@@ -28,43 +28,8 @@ public class Sdpmbecontroller
 
     @Autowired
     deploymentsSvc ds;
-    
-    @GetMapping(path = "/testdummy", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    @CrossOrigin(origins = "http://localhost:3000")
-    public String testdummy() throws IOException
-    {
-      ArrayList <JSONObject>jsonArray = new ArrayList<JSONObject>();
-      for (int i=0; i<10; ++i)
-      {
 
-        JSONObject jsonEntry = new JSONObject();
-        jsonEntry.put("name", "foo" + i);
-        jsonEntry.put("num", new Integer(100) + i );
-        jsonEntry.put("balance", new Double(1000.21 * i));
-         if (i%2 == 0)
-            jsonEntry.put("is_vip", new Boolean(true));
-        else
-            jsonEntry.put("is_vip", new Boolean(false));
-
-        jsonArray.add(jsonEntry);
-      }
-      int aSize = jsonArray.size();
-      String retString = "";
-      for (int i=0; i < aSize; ++i)
-      {
-          JSONObject entry = jsonArray.get(i);
-          StringWriter out = new StringWriter();
-          entry.writeJSONString(out);
-          retString = retString + out.toString() + ",\n";
-
-      }
-      retString = retString.substring(0, retString.length()-2);
-      retString = "[" + retString + "]";
-      return(retString);
-    }
-
-    @GetMapping(path = "/getdeployments", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/getdeploymentsdummy", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     @CrossOrigin(origins = "http://localhost:3000")
     public String getdeployments() throws IOException
@@ -124,22 +89,18 @@ public class Sdpmbecontroller
    @CrossOrigin(origins = "http://localhost:3000")
    public void addDeployment(@RequestBody String deploymententry) throws IOException, ParseException
    {
-     //String[] deployment = deploymententry.split(",");
-     deploymentsEntity de = new deploymentsEntity();
 
+     deploymentsEntity de = new deploymentsEntity();
      SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss aa");
-     System.out.println(deploymententry);
      java.util.Date parsed = format.parse(deploymententry);
      java.sql.Date sqldate = new java.sql.Date(parsed.getTime());
      java.sql.Time sqltime = new java.sql.Time(parsed.getTime());
-     System.out.println(sqldate.toString());
-     System.out.println(sqltime.toString());
      de.setDeploymentDate(sqldate);
      de.setDeploymentTime(sqltime);
      ds.addDeployment(de);
   }
 
-  @GetMapping(path = "/getdeploymentsdb", produces = MediaType.APPLICATION_JSON_VALUE)
+  @GetMapping(path = "/getdeployments", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     @CrossOrigin(origins = "http://localhost:3000")
     public String getdeploymentsdb() throws IOException
@@ -151,12 +112,12 @@ public class Sdpmbecontroller
       {
         JSONObject jsonEntry = new JSONObject();
         deploymentsEntity de = deploymentEntries.get(i);
+        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss a");
+        String ampmtime =  sdf.format(de.getDeploymentTime());
         jsonEntry.put("id", String.valueOf(de.getId().intValue()));
         jsonEntry.put("Date", de.getDeploymentDate().toString());
-        jsonEntry.put("Time", de.getDeploymentTime().toString());
+        jsonEntry.put("Time", ampmtime);
         jsonArray.add(jsonEntry);
-        System.out.println("Date: " + de.getDeploymentDate().toString());
-        System.out.println("Time: " + de.getDeploymentTime().toString());
       }
 
       int aSize = jsonArray.size();
@@ -167,7 +128,6 @@ public class Sdpmbecontroller
           StringWriter out = new StringWriter();
           entry.writeJSONString(out);
           retString = retString + "\t" + out.toString() + ",\n";
- 
       }
 
       if (retString.length() > 0)
