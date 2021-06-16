@@ -2,7 +2,7 @@ package com.ibm.garage.sdpmbe.service;
 
 import java.util.ArrayList;
 
-import com.ibm.garage.sdpmbe.model.deploymentsDM;
+import com.ibm.garage.sdpmbe.model.deploymentsEntity;
 import com.ibm.garage.sdpmbe.repository.deploymentsRepo;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,14 +14,14 @@ public class deploymentsSvc
     @Autowired
     deploymentsRepo dmr;
 
-    public void addDeployment(deploymentsDM dm)
+    public void addDeployment(deploymentsEntity de)
     {
-        dmr.save(dm);
+        dmr.save(de);
     }
 
-    public ArrayList<deploymentsDM> getDeployments()
+    public ArrayList<deploymentsEntity> getDeployments()
     {
-        return (ArrayList<deploymentsDM>)dmr.findAll();
+        return (ArrayList<deploymentsEntity>)dmr.findAll();
     }
 
     public void clearDeployments()

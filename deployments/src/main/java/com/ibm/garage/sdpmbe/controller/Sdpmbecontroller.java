@@ -17,7 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import com.ibm.garage.sdpmbe.model.deploymentsDM;
+import com.ibm.garage.sdpmbe.model.deploymentsEntity;
 import com.ibm.garage.sdpmbe.service.deploymentsSvc;
 
 
@@ -125,7 +125,7 @@ public class Sdpmbecontroller
    public void addDeployment(@RequestBody String deploymententry) throws IOException, ParseException
    {
      //String[] deployment = deploymententry.split(",");
-     deploymentsDM de = new deploymentsDM();
+     deploymentsEntity de = new deploymentsEntity();
 
      SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss aa");
      System.out.println(deploymententry);
@@ -144,13 +144,13 @@ public class Sdpmbecontroller
     @CrossOrigin(origins = "http://localhost:3000")
     public String getdeploymentsdb() throws IOException
     {
-      ArrayList<deploymentsDM> deploymentEntries = ds.getDeployments();
+      ArrayList<deploymentsEntity> deploymentEntries = ds.getDeployments();
       ArrayList <JSONObject>jsonArray = new ArrayList<JSONObject>();
       int size = deploymentEntries.size();
       for (int i=0; i < size; ++i)
       {
         JSONObject jsonEntry = new JSONObject();
-        deploymentsDM de = deploymentEntries.get(i);
+        deploymentsEntity de = deploymentEntries.get(i);
         jsonEntry.put("id", String.valueOf(de.getId().intValue()));
         jsonEntry.put("Date", de.getDeploymentDate().toString());
         jsonEntry.put("Time", de.getDeploymentTime().toString());
