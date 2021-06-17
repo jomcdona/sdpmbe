@@ -142,6 +142,7 @@ public class Deploymentscontroller
     }
 
     @GetMapping(path = "/cleardeployments")
+    @CrossOrigin(origins = "http://localhost:3000")
     public void clearDeplyments()
     {
       ds.clearDeployments();

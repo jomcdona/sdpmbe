@@ -3,6 +3,7 @@ package com.ibm.garage.sdpmbe.leadtimes.controller;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -43,12 +44,12 @@ public class LeadtimeController {
 
     }
 
-    @PostMapping(path = "/addleadtime", consumes = MediaType.TEXT_PLAIN_VALUE)
+    @GetMapping(path = "/addleadtime", consumes = MediaType.TEXT_PLAIN_VALUE)
     @CrossOrigin(origins = "http://localhost:3000")
-    public void addleadtime(@RequestParam String req)
+    public void addleadtime(@RequestParam String leadtime)
     {
         leadtimeEntity lte = new leadtimeEntity();
-        lte.setLeadtime(Integer.parseInt(req));
+        lte.setLeadtime(Integer.parseInt(leadtime));
         lts.addLeadTime(lte);
     }
     
